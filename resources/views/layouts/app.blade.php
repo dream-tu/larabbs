@@ -24,6 +24,7 @@
   <div class="container">
 
     @include('shared._messages')
+    @include('sweetalert::alert')
 
     @yield('content')
 
