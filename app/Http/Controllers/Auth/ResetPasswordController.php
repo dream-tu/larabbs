@@ -27,4 +27,12 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function sendResetResponse()
+    {
+        toast('密码更新成功，您已成功登录！','success');
+        return redirect($this->redirectPath());
+
+    }
+
 }
