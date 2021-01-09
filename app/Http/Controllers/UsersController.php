@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',['except' => ['show']]);
+    }
 
 
     public function show(User $user)
@@ -17,12 +21,13 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update',$user);
         return view('users.edit',compact('user'));
     }
 
     public function update(UserRequest $request,User $user)
     {
-//        dd($request->avatar);
+        $this->authorize('update',$user);
         $user->update($request->all());
         toast('个人资料更新成功！','success');
         return redirect()->route('users.show',$user->id);

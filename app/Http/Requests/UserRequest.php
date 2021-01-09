@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|between:3,25|regex:/^[\u4e00-\u9fa5A-Za-z0-9-_]+$/|unique:users,name,' . Auth::id(),
+            'name' => 'required|between:2,25|regex:/^[\x7f-\xffA-Za-z0-9 ()（）\s]+$/|unique:users,name,' . Auth::id(),
             'email' => 'required|email',
             'introduction' => 'max:80',
             'avatar' => 'mimes:jpeg,bmp,png,gif|dimensions:min_width=208,min_height=208',
@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
             'avatar.dimensions' => '图片的清晰度不够，宽和高需要 208px 以上',
             'name.unique' => '用户名已被占用，请重新填写',
             'name.regex' => '用户名只支持中文、英文、数字、横杠和下划线。',
-            'name.between' => '用户名必须介于 3 - 25 个字符之间。',
+            'name.between' => '用户名必须介于 2 - 25 个字符之间。',
             'name.required' => '用户名不能为空。',
         ];
     }
