@@ -7,10 +7,22 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use QCod\ImageUp\HasImageUploads;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use HasFactory, Notifiable,MustVerifyEmail;
+    use HasFactory, Notifiable,MustVerifyEmail,HasImageUploads;
+
+    protected static $imageFields = [
+        'avatar' => [
+            'width'    =>  208,
+            'height'   =>   208,
+            'crop'     =>   true,
+
+            // validation rules when uploading image
+            'rules' => 'image|max:2000',
+        ]
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'email',
         'password',
         'introduction'
+
     ];
 
     /**
@@ -42,4 +55,13 @@ class User extends Authenticatable implements MustVerifyEmailContract
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //显示图片的访问器
+    public function avatar()
+    {
+        if(!$this->avatar) {
+          return "http://larabbs.test/avatars/0MspEjh1n9tJfWeFbykDbdwDRxcqNtxuUjpBxRjt.png";
+        }
+        return \Storage::disk('avatar')->url($this->attributes['avatar']);
+    }
 }
