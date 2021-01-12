@@ -64,4 +64,9 @@ class User extends Authenticatable implements MustVerifyEmailContract
         }
         return \Storage::disk('avatar')->url($this->attributes['avatar']);
     }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
 }
